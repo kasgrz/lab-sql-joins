@@ -60,12 +60,17 @@ ORDER BY times_rented DESC
 LIMIT 10;
 
 -- 7. Determine if "Academy Dinosaur" can be rented from Store 1.
-SELECT f.title, i.store_id
+SELECT f.title, 
+	   CASE
+           WHEN COUNT(i.inventory_id) > 0 THEN 'Yes'
+           ELSE 'No'
+       END AS can_be_rented_store1
 FROM film AS f
 LEFT JOIN inventory AS i
 ON f.film_id = i.film_id
-WHERE f.title = "Academy Dinosaur"
-AND store_id = 1;
+AND i.store_id = 1
+WHERE f.title = 'Academy Dinosaur'
+GROUP BY f.title;
 
 -- taking into account if rented or not
 
